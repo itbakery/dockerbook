@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>What we will see today &mdash; Docker Django Project 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Docker Django Project 1.0 documentation" href="index.html"/>
+        <link rel="prev" title="Dockerizing Django" href="dockerizing.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Docker Django Project
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="dockerizing.html">Dockerizing Django</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">What we will see today</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#build-a-simple-micro-service">Build a simple micro-service</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Docker Django Project</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>What we will see today</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/microservice.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="what-we-will-see-today">
+<h1>What we will see today<a class="headerlink" href="#what-we-will-see-today" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><ul class="simple">
+<li>Create base docker image (alpine+node  ubuntu+node)</li>
+<li>Build a simple micro-service locally (base image + microservice)</li>
+<li>Run our micro-service inside a container</li>
+<li>Create Docker image from an exits containe</li>
+<li>Publish our image in Docker hub</li>
+</ul>
+</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">proj_microservice</span>
+<span class="n">cd</span> <span class="n">proj_microservice</span>
+<span class="n">docker</span> <span class="n">pull</span> <span class="n">node</span><span class="p">:</span><span class="mf">9.3</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">alpine</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">t</span> <span class="n">node</span><span class="p">:</span><span class="mf">9.3</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">alpine</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>create script <cite>install.sh</cite></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">apk</span> <span class="n">add</span> <span class="o">--</span><span class="n">update</span> <span class="n">nodejs</span> <span class="n">nodejs</span><span class="o">-</span><span class="n">npm</span>
+<span class="n">exit</span>
+<span class="n">docker</span> <span class="n">ps</span> <span class="o">-</span><span class="n">a</span>
+<span class="n">CONTAINER</span> <span class="n">ID</span>        <span class="n">IMAGE</span>               <span class="n">COMMAND</span>                  <span class="n">CREATED</span>             <span class="n">STATUS</span>                          <span class="n">PORTS</span>               <span class="n">NAMES</span>
+<span class="mi">1</span><span class="n">c58c6793db4</span>        <span class="n">node</span><span class="p">:</span><span class="mf">9.3</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">alpine</span>   <span class="s2">&quot;sh&quot;</span>                     <span class="mi">16</span> <span class="n">minutes</span> <span class="n">ago</span>      <span class="n">Exited</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="n">About</span> <span class="n">a</span> <span class="n">minute</span> <span class="n">ago</span>                       <span class="n">objective_heyrovsky</span>
+
+<span class="n">docker</span> <span class="n">commit</span> <span class="o">-</span><span class="n">a</span> <span class="n">itbakery</span> <span class="mi">1</span><span class="n">c58c6793db4</span>  <span class="n">node_alpine</span><span class="p">:</span><span class="mf">1.0</span>
+<span class="n">sha256</span><span class="p">:</span><span class="mi">46</span><span class="n">fbcd7158d19e6c507334ad6cdeb1f335e77d674500dbb02e941fa3b94208af</span>
+
+<span class="n">docker</span> <span class="n">images</span>
+<span class="n">REPOSITORY</span>               <span class="n">TAG</span>                 <span class="n">IMAGE</span> <span class="n">ID</span>            <span class="n">CREATED</span>             <span class="n">SIZE</span>
+<span class="n">node_alpine</span>              <span class="mf">1.0</span>                 <span class="mi">46</span><span class="n">fbcd7158d1</span>        <span class="mi">16</span> <span class="n">seconds</span> <span class="n">ago</span>      <span class="mi">99</span><span class="n">MB</span>
+</pre></div>
+</div>
+<p>now we have base image <code class="docutils literal"><span class="pre">docker</span> <span class="pre">commit</span> <span class="pre">-a</span> <span class="pre">&quot;author&quot;</span> <span class="pre">container_id</span>&#160; <span class="pre">image_name:tag</span></code></p>
+<div class="section" id="build-a-simple-micro-service">
+<h2>Build a simple micro-service<a class="headerlink" href="#build-a-simple-micro-service" title="Permalink to this headline">¶</a></h2>
+<p>crate microservice inside directory proj_microservice test and run before port to docker</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span> <span class="o">-</span><span class="n">g</span> <span class="n">express</span><span class="o">-</span><span class="n">generator</span>
+<span class="n">express</span> <span class="n">microservice</span>
+</pre></div>
+</div>
+<p>structure now:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>.
+└── microservice
+    ├── app.js
+    ├── bin
+    │   └── www
+    ├── package.json
+    ├── public
+    │   ├── images
+    │   ├── javascripts
+    │   └── stylesheets
+    │       └── style.css
+    ├── routes
+    │   ├── index.js
+    │   └── users.js
+    └── views
+        ├── error.jade
+        ├── index.jade
+        └── layout.jade
+</pre></div>
+</div>
+<p>result</p>
+<blockquote>
+<div><ul>
+<li><p class="first">check file package.json start script is <code class="docutils literal"><span class="pre">/bin/www</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;microservice&quot;</span><span class="p">,</span>
+<span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0&quot;</span><span class="p">,</span>
+<span class="s2">&quot;private&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+<span class="s2">&quot;scripts&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;node ./bin/www&quot;</span>
+<span class="p">},</span>
+<span class="s2">&quot;dependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;body-parser&quot;</span><span class="p">:</span> <span class="s2">&quot;~1.18.2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cookie-parser&quot;</span><span class="p">:</span> <span class="s2">&quot;~1.4.3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;debug&quot;</span><span class="p">:</span> <span class="s2">&quot;~2.6.9&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;express&quot;</span><span class="p">:</span> <span class="s2">&quot;~4.15.5&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;jade&quot;</span><span class="p">:</span> <span class="s2">&quot;~1.11.0&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;morgan&quot;</span><span class="p">:</span> <span class="s2">&quot;~1.9.0&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;serve-favicon&quot;</span><span class="p">:</span> <span class="s2">&quot;~2.4.5&quot;</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">www script load app.js and start listening http:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">app</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s1">&#39;../app&#39;</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">debug</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s1">&#39;debug&#39;</span><span class="p">)(</span><span class="s1">&#39;microservice:server&#39;</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">http</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+
+<span class="n">var</span> <span class="n">port</span> <span class="o">=</span> <span class="n">normalizePort</span><span class="p">(</span><span class="n">process</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">PORT</span> <span class="o">||</span> <span class="s1">&#39;3000&#39;</span><span class="p">);</span>
+<span class="n">app</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">,</span> <span class="n">port</span><span class="p">);</span>
+
+<span class="n">var</span> <span class="n">server</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">createServer</span><span class="p">(</span><span class="n">app</span><span class="p">);</span>
+
+<span class="n">server</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="n">port</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">app.js load 2 module and use it:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">index</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s1">&#39;./routes/index&#39;</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">users</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s1">&#39;./routes/users&#39;</span><span class="p">);</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">index</span><span class="p">);</span>
+<span class="n">app</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;/users&#39;</span><span class="p">,</span> <span class="n">users</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">add routers/api.js:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">express</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">router</span> <span class="o">=</span> <span class="n">express</span><span class="o">.</span><span class="n">Router</span><span class="p">();</span>
+
+<span class="o">/*</span> <span class="n">GET</span> <span class="n">hello</span><span class="o">.</span> <span class="o">*/</span>
+<span class="n">router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/sayhello&#39;</span><span class="p">,</span> <span class="n">function</span> <span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="nb">next</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;Hello&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="n">module</span><span class="o">.</span><span class="n">exports</span> <span class="o">=</span> <span class="n">router</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">add:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">index</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s1">&#39;./routes/index&#39;</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">users</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s1">&#39;./routes/users&#39;</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">api</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s1">&#39;./routes/api&#39;</span><span class="p">);</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">index</span><span class="p">);</span>
+<span class="n">app</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;/users&#39;</span><span class="p">,</span> <span class="n">users</span><span class="p">);</span>
+<span class="n">app</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;/api&#39;</span><span class="p">,</span> <span class="n">api</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">npm build and start:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span>
+<span class="n">npm</span> <span class="n">start</span>
+<span class="o">&gt;</span> <span class="n">microservice</span><span class="nd">@0</span><span class="o">.</span><span class="mf">0.0</span> <span class="n">start</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">mee</span><span class="o">/</span><span class="n">Work</span><span class="o">/</span><span class="n">proj_microservice</span><span class="o">/</span><span class="n">microservice</span>
+<span class="o">&gt;</span> <span class="n">node</span> <span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">www</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">open browser   localhost:3000/api/sayhello</p>
+</li>
+</ul>
+</div></blockquote>
+<p>Port service to docker image:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">images</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">-</span><span class="n">v</span> <span class="s2">&quot;$(pwd)&quot;</span><span class="p">:</span><span class="o">/</span><span class="n">host</span>  <span class="o">-</span><span class="n">p</span> <span class="mi">9000</span><span class="p">:</span><span class="mi">3000</span> <span class="n">node_alpine</span><span class="p">:</span><span class="mf">1.0</span> <span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">bash</span>
+<span class="o">/</span> <span class="c1"># ls /host/</span>
+<span class="n">app</span><span class="o">.</span><span class="n">js</span>             <span class="n">node_modules</span>       <span class="n">package</span><span class="o">.</span><span class="n">json</span>       <span class="n">routes</span>
+<span class="nb">bin</span>                <span class="n">package</span><span class="o">-</span><span class="n">lock</span><span class="o">.</span><span class="n">json</span>  <span class="n">public</span>             <span class="n">views</span>
+
+<span class="n">cp</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">host</span>  <span class="o">/</span><span class="n">microservice</span>
+<span class="n">cd</span> <span class="o">/</span><span class="n">microservice</span>
+<span class="n">npm</span> <span class="n">start</span>
+
+<span class="p">(</span><span class="n">test</span> <span class="n">by</span> <span class="nb">open</span> <span class="n">browser</span> <span class="n">to</span> <span class="n">localhost</span><span class="p">:</span><span class="mi">9000</span><span class="p">)</span>
+
+<span class="n">exit</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>-v mount host  to docker. it’s temporary for test. remember we have to copy to container</li>
+<li>-p port host and docker</li>
+<li>$(pwd) use current working directory</li>
+</ul>
+<p>commit create new image:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">ps</span> <span class="o">-</span><span class="n">a</span>
+<span class="n">CONTAINER</span> <span class="n">ID</span>        <span class="n">IMAGE</span>               <span class="n">COMMAND</span>                  <span class="n">CREATED</span>             <span class="n">STATUS</span>                     <span class="n">PORTS</span>                    <span class="n">NAMES</span>
+<span class="mi">27520</span><span class="n">ba79596</span>        <span class="n">node_alpine</span><span class="p">:</span><span class="mf">1.0</span>     <span class="s2">&quot;./bin/sh&quot;</span>               <span class="mi">24</span> <span class="n">minutes</span> <span class="n">ago</span>      <span class="n">Exited</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="mi">8</span> <span class="n">seconds</span> <span class="n">ago</span>                            <span class="n">hardcore_nightingale</span>
+
+<span class="n">docker</span> <span class="n">commit</span> <span class="o">-</span><span class="n">a</span> <span class="n">itbakery</span> <span class="mi">27520</span><span class="n">ba79596</span> <span class="n">node_alpine_service</span><span class="p">:</span><span class="mf">1.0</span>
+<span class="n">sha256</span><span class="p">:</span><span class="mi">133</span><span class="n">a5fbd577d7ebdcb85be4044ca93eeabb0d7b3445b5f7a5204f52dea97f9a9</span>
+
+<span class="n">docker</span> <span class="n">images</span>
+<span class="n">REPOSITORY</span>               <span class="n">TAG</span>                 <span class="n">IMAGE</span> <span class="n">ID</span>            <span class="n">CREATED</span>              <span class="n">SIZE</span>
+<span class="n">node_alpine_service</span>      <span class="mf">1.0</span>                 <span class="mi">133</span><span class="n">a5fbd577d</span>        <span class="n">About</span> <span class="n">a</span> <span class="n">minute</span> <span class="n">ago</span>   <span class="mi">105</span><span class="n">MB</span>
+<span class="n">node_alpine</span>              <span class="mf">1.0</span>                 <span class="mi">46</span><span class="n">fbcd7158d1</span>        <span class="n">About</span> <span class="n">an</span> <span class="n">hour</span> <span class="n">ago</span>    <span class="mi">99</span><span class="n">MB</span>
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">microservice</span> <span class="o">-</span><span class="n">p</span> <span class="mi">9000</span><span class="p">:</span><span class="mi">3000</span> <span class="n">node_alpine_service</span><span class="p">:</span><span class="mf">1.0</span> <span class="n">npm</span> <span class="n">start</span>
+<span class="mi">1212</span><span class="n">da18fad5a240a84dddfc01681e9bbacb4483cbc68f531c6decdd78ffafb7</span>
+</pre></div>
+</div>
+<ul>
+<li><table class="first docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-w</span></kbd></td>
+<td><p class="first last">working directory in container</p>
+</td></tr>
+</tbody>
+</table>
+</li>
+<li><table class="first docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-p</span></kbd></td>
+<td><p class="first last">port map</p>
+</td></tr>
+</tbody>
+</table>
+</li>
+<li><p class="first">npm start  run this command in docker at working directory</p>
+</li>
+</ul>
+<p>add to repository:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">tag</span> <span class="n">node_alpine_service</span><span class="p">:</span><span class="mf">1.0</span>  <span class="n">node_alpine_service</span><span class="p">:</span><span class="n">latest</span>
+<span class="n">docker</span> <span class="n">images</span>
+<span class="n">REPOSITORY</span>               <span class="n">TAG</span>                 <span class="n">IMAGE</span> <span class="n">ID</span>            <span class="n">CREATED</span>             <span class="n">SIZE</span>
+<span class="n">node_alpine_service</span>      <span class="mf">1.0</span>                 <span class="mi">133</span><span class="n">a5fbd577d</span>        <span class="mi">9</span> <span class="n">minutes</span> <span class="n">ago</span>       <span class="mi">105</span><span class="n">MB</span>
+<span class="n">node_alpine_service</span>      <span class="n">latest</span>              <span class="mi">133</span><span class="n">a5fbd577d</span>        <span class="mi">9</span> <span class="n">minutes</span> <span class="n">ago</span>       <span class="mi">105</span><span class="n">MB</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first">latest allow user only pull with name:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">tag</span> <span class="n">node_alpine_service</span><span class="p">:</span>  <span class="n">itbakery</span><span class="o">/</span><span class="n">node_alpine_service</span>
+<span class="n">docker</span> <span class="n">images</span>
+<span class="n">REPOSITORY</span>                     <span class="n">TAG</span>                 <span class="n">IMAGE</span> <span class="n">ID</span>            <span class="n">CREATED</span>             <span class="n">SIZE</span>
+<span class="n">itbakery</span><span class="o">/</span><span class="n">node_alpine_service</span>   <span class="n">latest</span>              <span class="mi">133</span><span class="n">a5fbd577d</span>        <span class="mi">12</span> <span class="n">minutes</span> <span class="n">ago</span>      <span class="mi">105</span><span class="n">MB</span>
+<span class="n">node_alpine_service</span>            <span class="mf">1.0</span>                 <span class="mi">133</span><span class="n">a5fbd577d</span>        <span class="mi">12</span> <span class="n">minutes</span> <span class="n">ago</span>      <span class="mi">105</span><span class="n">MB</span>
+<span class="n">node_alpine_service</span>            <span class="n">latest</span>              <span class="mi">133</span><span class="n">a5fbd577d</span>        <span class="mi">12</span> <span class="n">minutes</span> <span class="n">ago</span>      <span class="mi">105</span><span class="n">MB</span>
+<span class="n">node_alpine</span>                    <span class="mf">1.0</span>                 <span class="mi">46</span><span class="n">fbcd7158d1</span>        <span class="mi">2</span> <span class="n">hours</span> <span class="n">ago</span>         <span class="mi">99</span><span class="n">MB</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>push:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">login</span>
+<span class="n">Login</span> <span class="k">with</span> <span class="n">your</span> <span class="n">Docker</span> <span class="n">ID</span> <span class="n">to</span> <span class="n">push</span> <span class="ow">and</span> <span class="n">pull</span> <span class="n">images</span> <span class="kn">from</span> <span class="nn">Docker</span> <span class="n">Hub</span><span class="o">.</span> <span class="n">If</span> <span class="n">you</span> <span class="n">don</span><span class="s1">&#39;t have a Docker ID, head over to https://hub.docker.com to create one.</span>
+<span class="n">Username</span><span class="p">:</span> <span class="n">itbakery</span>
+<span class="n">Password</span><span class="p">:</span>
+<span class="n">Login</span> <span class="n">Succeeded</span>
+
+<span class="n">docker</span> <span class="n">push</span> <span class="n">itbakery</span><span class="o">/</span><span class="n">node_alpine_service</span>
+<span class="n">The</span> <span class="n">push</span> <span class="n">refers</span> <span class="n">to</span> <span class="n">a</span> <span class="n">repository</span> <span class="p">[</span><span class="n">docker</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">itbakery</span><span class="o">/</span><span class="n">node_alpine_service</span><span class="p">]</span>
+<span class="mi">1286</span><span class="n">cbe57360</span><span class="p">:</span> <span class="n">Pushed</span>
+<span class="n">ed703467fa41</span><span class="p">:</span> <span class="n">Pushed</span>
+<span class="n">fe9c7b6dc22a</span><span class="p">:</span> <span class="n">Pushed</span>
+<span class="mi">6</span><span class="n">b7b1fa2531c</span><span class="p">:</span> <span class="n">Pushed</span>
+<span class="mi">6</span><span class="n">dfaec39e726</span><span class="p">:</span> <span class="n">Pushed</span>
+
+<span class="n">latest</span><span class="p">:</span> <span class="n">digest</span><span class="p">:</span> <span class="n">sha256</span><span class="p">:</span><span class="mi">21</span><span class="n">b62028e6809023c13c7116677f89f3e1da892498013a66f44c551698cf3a25</span> <span class="n">size</span><span class="p">:</span> <span class="mi">1374</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="dockerizing.html" class="btn btn-neutral" title="Dockerizing Django" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Sawangpong Muaphet.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
