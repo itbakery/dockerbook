@@ -1,3 +1,4 @@
+
 .. Docker Django Project documentation master file, created by
    sphinx-quickstart on Mon Jan  1 20:20:28 2018.
    You can adapt this file completely to your liking, but it should at least
@@ -10,6 +11,7 @@ Welcome to Docker Django Project's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   install
    dockerizing
    microservice
    dockerfile
